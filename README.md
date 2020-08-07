@@ -1,16 +1,16 @@
 Fertiges Programm:
-https://bynikoala.github.io/PRIMA/TD/Main.html
+- https://bynikoala.github.io/PRIMA/TD/Main.html
 
 Quellcode:
-https://bynikoala.github.io/PRIMA/TD/Main.ts __
-https://bynikoala.github.io/PRIMA/TD/Path.ts __
-https://bynikoala.github.io/PRIMA/TD/Projectile.ts __
-https://bynikoala.github.io/PRIMA/TD/Tower.ts __
-https://bynikoala.github.io/PRIMA/TD/Enemy.ts __
-https://bynikoala.github.io/PRIMA/TD/ComponentPicker.ts
+- https://bynikoala.github.io/PRIMA/TD/Main.ts
+- https://bynikoala.github.io/PRIMA/TD/Path.ts
+- https://bynikoala.github.io/PRIMA/TD/Projectile.ts
+- https://bynikoala.github.io/PRIMA/TD/Tower.ts
+- https://bynikoala.github.io/PRIMA/TD/Enemy.ts
+- https://bynikoala.github.io/PRIMA/TD/ComponentPicker.ts
 
 Designdokument:
-https://bynikoala.github.io/PRIMA/TD/Designdokument.pdf
+- https://bynikoala.github.io/PRIMA/TD/Designdokument.pdf
 
 Archiv:
-https://bynikoala.github.io/PRIMA/TD/Archiv.rar
+- https://bynikoala.github.io/PRIMA/TD/Archiv.rar
