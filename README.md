@@ -1,5 +1,5 @@
-Fertiges Programm:
-- https://bynikoala.github.io/PRIMA/TD/Main.html
+#Fertiges Programm:
+#- https://bynikoala.github.io/PRIMA/TD/Main.html
 
 Quellcode:
 - https://bynikoala.github.io/PRIMA/TD/Main.ts
