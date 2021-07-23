@@ -1,0 +1,26 @@
+[
+    {
+        "enemy": 1,
+        "health": 50,
+        "speed": 0.004,
+        "type": 0
+    },
+    {
+        "enemy": 2,
+        "health": 50,
+        "speed": 0.004,
+        "type": 1
+    },
+    {
+        "enemy": 2,
+        "health": 50,
+        "speed": 0.004,
+        "type": 2
+    },
+    {
+        "enemy": 2,
+        "health": 50,
+        "speed": 0.004,
+        "type": 3
+    }
+]

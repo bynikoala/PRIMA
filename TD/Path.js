@@ -7,7 +7,7 @@ var TD;
             let crc2 = _viewport.getContext();
             let first = true;
             for (let waypoint of this) {
-                let projection = TD.viewport.camera.project(waypoint);
+                let projection = TD.viewport.camera.pointClipToWorld(waypoint);
                 let posClient = TD.viewport.pointClipToClient(projection.toVector2());
                 if (first)
                     crc2.moveTo(posClient.x, posClient.y);

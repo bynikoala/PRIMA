@@ -29,11 +29,11 @@ var TD;
         }
         getPickData() {
             let node = this.getContainer();
-            let projection = TD.viewport.camera.project(node.mtxWorld.translation);
+            let projection = TD.viewport.camera.pointClipToWorld(node.mtxWorld.translation);
             let posClient = TD.viewport.pointClipToClient(projection.toVector2());
             let projectionRadius = ƒ.Vector3.X(this.radius * node.mtxWorld.scaling.magnitude); // / 1.414);
-            projectionRadius.transform(TD.viewport.camera.pivot, false);
-            projectionRadius = TD.viewport.camera.project(ƒ.Vector3.SUM(node.mtxWorld.translation, projectionRadius));
+            projectionRadius.transform(TD.viewport.camera.mtxPivot, false);
+            projectionRadius = TD.viewport.camera.pointClipToWorld(ƒ.Vector3.SUM(node.mtxWorld.translation, projectionRadius));
             let posRadius = TD.viewport.pointClipToClient(projectionRadius.toVector2());
             return { clip: projection, canvas: posClient, radius: ƒ.Vector2.DIFFERENCE(posRadius, posClient) };
         }

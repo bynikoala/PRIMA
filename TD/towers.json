@@ -1,0 +1,29 @@
+[
+    {
+        "tower": 1,
+        "price": 50,
+        "strength": 50,
+        "range": 6,
+        "rate": 500,
+        "type": 0
+    },
+    {
+        "tower": 2,
+        "price": 50,
+        "strength": 50,
+        "range": 6,
+        "rate": 1000,
+        "type": 0
+    },
+    {
+        "tower": 3,
+        "price": 150,
+        "strength": 50,
+        "range": 12,
+        "rate": 450,
+        "type": 2
+    },
+    {
+
+    }
+]

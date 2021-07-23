@@ -5,13 +5,15 @@ var TD;
     var ƒAid = FudgeAid;
     window.addEventListener("load", hndLoad);
     TD.sizeTerrain = 20;
+    TD.activeEnemies = [];
+    TD.curEnemy = 0;
     function hndLoad(_event) {
         const canvas = document.querySelector("canvas");
         let graph = new ƒ.Node("Graph");
         let cmpCamera = new ƒ.ComponentCamera();
-        cmpCamera.pivot.translate(new ƒ.Vector3(20, 20, 20));
-        cmpCamera.pivot.lookAt(ƒ.Vector3.ZERO());
-        cmpCamera.backgroundColor = ƒ.Color.CSS("lightblue");
+        cmpCamera.mtxPivot.translate(new ƒ.Vector3(20, 20, 20));
+        cmpCamera.mtxPivot.lookAt(ƒ.Vector3.ZERO());
+        cmpCamera.clrBackground = ƒ.Color.CSS("lightblue");
         TD.viewport = new ƒ.Viewport();
         TD.viewport.initialize("Viewport", graph, cmpCamera, canvas);
         ƒ.Debug.log(TD.viewport);
@@ -19,14 +21,15 @@ var TD;
         graph.addChild(new ƒAid.NodeCoordinateSystem());
         graph.addChild(createTerrain());
         TD.path = createPath();
-        addTowersAndEnemies(graph);
+        addTowersAndEnemiesFromJson(graph);
         TD.viewport.draw();
         // viewport.addEventListener(ƒ.EVENT_POINTER.MOVE, pointerMove);
         // viewport.activatePointerEvent(ƒ.EVENT_POINTER.MOVE, true);
-        ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
+        ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, 30);
+        TD.enemyTimer = new ƒ.Timer(ƒ.Time.game, 1000, TD.enemyList.length, launchEnemy);
     }
-    function addTowersAndEnemies(_graph) {
+    function addTowersAndEnemiesFromJson(_graph) {
         TD.towerList = [
             new TD.Tower("Tower1", ƒ.Vector3.Z(5)),
             new TD.Tower("Tower2", ƒ.Vector3.Z(-3)),
@@ -37,18 +40,29 @@ var TD;
         ];
         TD.enemyList = [
             new TD.Enemy("Enemy1", TD.path[0]),
-            new TD.Enemy("Enemy2", TD.path[0])
+            new TD.Enemy("Enemy2", TD.path[0]),
+            new TD.Enemy("Enemy3", TD.path[0]),
+            new TD.Enemy("Enemy4", TD.path[0])
         ];
         TD.towerList.forEach(tower => {
             _graph.addChild(tower);
         });
-        TD.enemyList.forEach(enemy => {
-            _graph.addChild(enemy);
-        });
+    }
+    function launchEnemy() {
+        if (TD.curEnemy <= TD.enemyList.length) {
+            let current = TD.enemyList[TD.curEnemy];
+            TD.activeEnemies.push(current);
+            TD.viewport.getBranch().addChild(current);
+            ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, current.update.bind(TD.enemyList[TD.curEnemy]));
+            TD.curEnemy++;
+        }
+        else {
+            TD.enemyTimer.clear();
+        }
     }
     function update(_event) {
-        TD.enemyList.forEach(enemy => {
-            TD.towerList.forEach(tower => {
+        TD.towerList.forEach(tower => {
+            TD.activeEnemies.forEach(enemy => {
                 tower.follow(enemy);
             });
         });

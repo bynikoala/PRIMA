@@ -39,12 +39,12 @@ namespace TD {
 
     private getPickData(): PickData {
       let node: ƒ.Node = this.getContainer();
-      let projection: ƒ.Vector3 = viewport.camera.project(node.mtxWorld.translation);
+      let projection: ƒ.Vector3 = viewport.camera.pointClipToWorld(node.mtxWorld.translation);
       let posClient: ƒ.Vector2 = viewport.pointClipToClient(projection.toVector2());
 
       let projectionRadius: ƒ.Vector3 = ƒ.Vector3.X(this.radius * node.mtxWorld.scaling.magnitude);// / 1.414);
-      projectionRadius.transform(viewport.camera.pivot, false);
-      projectionRadius = viewport.camera.project(ƒ.Vector3.SUM(node.mtxWorld.translation, projectionRadius));
+      projectionRadius.transform(viewport.camera.mtxPivot, false);
+      projectionRadius = viewport.camera.pointClipToWorld(ƒ.Vector3.SUM(node.mtxWorld.translation, projectionRadius));
       let posRadius: ƒ.Vector2 = viewport.pointClipToClient(projectionRadius.toVector2());
 
       return { clip: projection, canvas: posClient, radius: ƒ.Vector2.DIFFERENCE(posRadius, posClient) };

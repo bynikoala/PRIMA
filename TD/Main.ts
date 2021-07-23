@@ -9,15 +9,18 @@ namespace TD {
 
   export let towerList: Tower[];
   export let enemyList: Enemy[];
+  export let activeEnemies: Enemy[] = [];
+  export let curEnemy: number = 0;
+  export let enemyTimer: ƒ.Timer;
 
   function hndLoad(_event: Event): void {
     const canvas: HTMLCanvasElement = document.querySelector("canvas");
     let graph: ƒ.Node = new ƒ.Node("Graph");
 
     let cmpCamera: ƒ.ComponentCamera = new ƒ.ComponentCamera();
-    cmpCamera.pivot.translate(new ƒ.Vector3(20, 20, 20));
-    cmpCamera.pivot.lookAt(ƒ.Vector3.ZERO());
-    cmpCamera.backgroundColor = ƒ.Color.CSS("lightblue");
+    cmpCamera.mtxPivot.translate(new ƒ.Vector3(20, 20, 20));
+    cmpCamera.mtxPivot.lookAt(ƒ.Vector3.ZERO());
+    cmpCamera.clrBackground = ƒ.Color.CSS("lightblue");
 
     viewport = new ƒ.Viewport();
     viewport.initialize("Viewport", graph, cmpCamera, canvas);
@@ -29,8 +32,7 @@ namespace TD {
     graph.addChild(createTerrain());
     path = createPath();
 
-    addTowersAndEnemies(graph);
-
+    addTowersAndEnemiesFromJson(graph);
 
     viewport.draw();
 
@@ -39,9 +41,11 @@ namespace TD {
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
     ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, 30);
+
+    enemyTimer = new ƒ.Timer(ƒ.Time.game, 1000, enemyList.length, launchEnemy);
   }
 
-  function addTowersAndEnemies(_graph: ƒ.Node): void {
+  function addTowersAndEnemiesFromJson(_graph: ƒ.Node): void {
 
     towerList = [
       new Tower("Tower1", ƒ.Vector3.Z(5)),
@@ -53,25 +57,36 @@ namespace TD {
     ];
     enemyList = [
       new Enemy("Enemy1", path[0]),
-      new Enemy("Enemy2", path[0])
+      new Enemy("Enemy2", path[0]),
+      new Enemy("Enemy3", path[0]),
+      new Enemy("Enemy4", path[0])
     ];
 
     towerList.forEach(tower => {
       _graph.addChild(tower);
     });
-    enemyList.forEach(enemy => {
-      _graph.addChild(enemy);
-    });
+  }
 
+  function launchEnemy(): void {
+    if (curEnemy <= enemyList.length) {
+      let current: Enemy = enemyList[curEnemy];
+      activeEnemies.push(current);
+      viewport.getBranch().addChild(current);
+      ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, current.update.bind(enemyList[curEnemy]));
+
+      curEnemy++;
+    } else {
+      enemyTimer.clear();
+    }
   }
 
   function update(_event: ƒ.Eventƒ): void {
-    enemyList.forEach(enemy => {
-      towerList.forEach(tower => {
+    towerList.forEach(tower => {
+      activeEnemies.forEach(enemy => {
         tower.follow(enemy);
       });
     });
-    
+
     viewport.draw();
     path.render(viewport);
   }

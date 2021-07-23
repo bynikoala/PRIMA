@@ -6,7 +6,7 @@ namespace TD {
       let crc2: CanvasRenderingContext2D = _viewport.getContext();
       let first: boolean = true;
       for (let waypoint of this) {
-        let projection: ƒ.Vector3 = viewport.camera.project(waypoint);
+        let projection: ƒ.Vector3 = viewport.camera.pointClipToWorld(waypoint);
         let posClient: ƒ.Vector2 = viewport.pointClipToClient(projection.toVector2());
         if (first)
           crc2.moveTo(posClient.x, posClient.y);

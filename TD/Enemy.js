@@ -4,19 +4,17 @@ var TD;
     class Enemy extends ƒ.Node {
         constructor(_name, _pos) {
             super(_name);
-            this.health = 1;
-            this.stamina = 1;
             this.speed = 4 / 1000;
             this.nextWaypoint = 0;
+            this.health = 200;
             this.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(_pos)));
             let cmpMaterial = new ƒ.ComponentMaterial(Enemy.material);
             cmpMaterial.clrPrimary = ƒ.Color.CSS("lightblue");
             this.addComponent(cmpMaterial);
             let cmpMesh = new ƒ.ComponentMesh(Enemy.mesh);
             this.addComponent(cmpMesh);
-            cmpMesh.pivot.scale(ƒ.Vector3.ONE(0.5));
-            cmpMesh.pivot.translateY(0.5);
-            ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update.bind(this));
+            cmpMesh.mtxPivot.scale(ƒ.Vector3.ONE(0.5));
+            cmpMesh.mtxPivot.translateY(0.5);
         }
         update(_event) {
             // via mutator for demonstration
@@ -32,9 +30,23 @@ var TD;
             }
             this.mtxLocal.translate(ƒ.Vector3.NORMALIZATION(move, distanceToTravel));
         }
+        reduceHealth(_tower) {
+            this.health -= _tower.strength;
+            if (this.health <= 0) {
+                this.removeEnemy(_tower);
+            }
+        }
+        removeEnemy(_tower) {
+            let _index = TD.activeEnemies.indexOf(this);
+            if (_index > -1) {
+                TD.activeEnemies.splice(_index, 1);
+            }
+            this.getParent().removeChild(this);
+            _tower.target = null;
+        }
     }
     Enemy.material = new ƒ.Material("Enemy", ƒ.ShaderFlat, new ƒ.CoatColored());
-    Enemy.mesh = new ƒ.MeshSphere(4, 2);
+    Enemy.mesh = new ƒ.MeshSphere("Body", 4, 2);
     TD.Enemy = Enemy;
 })(TD || (TD = {}));
 //# sourceMappingURL=Enemy.js.map

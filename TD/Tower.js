@@ -7,16 +7,16 @@ var TD;
             super(_name);
             this.stage = 1;
             this.health = 1;
-            this.strength = 0.1;
-            this.range = 10;
+            this.strength = 50;
+            this.range = 4;
             this.rate = 500;
             this.timer = new ƒ.Timer(ƒ.Time.game, this.rate, 0, this.fire.bind(this));
             let base = new ƒAid.Node("Base", null, Tower.material, Tower.meshBase);
             this.top = new ƒAid.Node("Top", ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(1)), Tower.material, Tower.meshTop);
-            let mtxTop = this.top.getComponent(ƒ.ComponentMesh).pivot;
+            let mtxTop = this.top.getComponent(ƒ.ComponentMesh).mtxPivot;
             mtxTop.rotateZ(90);
             this.gun = new ƒAid.Node("Base", ƒ.Matrix4x4.IDENTITY(), Tower.material, Tower.meshGun);
-            let mtxGun = this.gun.getComponent(ƒ.ComponentMesh).pivot;
+            let mtxGun = this.gun.getComponent(ƒ.ComponentMesh).mtxPivot;
             mtxGun.scale(new ƒ.Vector3(0.1, 0.1, 1));
             mtxGun.translateZ(0.5);
             this.addComponent(new ƒ.ComponentTransform(ƒ.Matrix4x4.TRANSLATION(_pos)));
@@ -25,18 +25,18 @@ var TD;
             this.top.addChild(this.gun);
         }
         follow(_enemy) {
-            this.target = null;
-            let distanceSquared = ƒ.Vector3.DIFFERENCE(this.mtxWorld.translation, _enemy.mtxWorld.translation).magnitudeSquared;
-            if (distanceSquared > (this.range * this.range))
-                return;
-            this.top.cmpTransform.lookAt(_enemy.mtxWorld.translation, ƒ.Vector3.Y());
             this.target = _enemy;
+            if (!this.mtxLocal.translation.isInsideSphere(this.target.mtxLocal.translation, this.range)) {
+                return;
+            }
+            this.top.cmpTransform.lookAt(_enemy.mtxWorld.translation, ƒ.Vector3.Y());
         }
         fire() {
-            if (!this.target)
+            if (this.target == null) {
                 return;
-            let projectile = new TD.Projectile(this.top.mtxWorld.translation, this.target);
-            TD.viewport.getGraph().addChild(projectile);
+            }
+            let projectile = new TD.Projectile(this.top.mtxWorld.translation, this.target, this);
+            TD.viewport.getBranch().addChild(projectile);
         }
         upgrade() {
             this.stage++;
@@ -46,9 +46,9 @@ var TD;
             this.health++;
         }
     }
-    Tower.material = new ƒ.Material("Tower", ƒ.ShaderFlat, new ƒ.CoatColored());
+    Tower.material = new ƒ.Material("Tower", ƒ.ShaderFlat, new ƒ.CoatColored(new ƒ.Color(0.5, 0.5, 0.5)));
     Tower.meshBase = new ƒ.MeshPyramid();
-    Tower.meshTop = new ƒ.MeshSphere(10, 4);
+    Tower.meshTop = new ƒ.MeshSphere("Body", 10, 4);
     Tower.meshGun = new ƒ.MeshCube();
     TD.Tower = Tower;
 })(TD || (TD = {}));
