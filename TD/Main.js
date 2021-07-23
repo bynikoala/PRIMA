@@ -25,7 +25,7 @@ var TD;
         TD.viewport.draw();
         // viewport.addEventListener(ƒ.EVENT_POINTER.MOVE, pointerMove);
         // viewport.activatePointerEvent(ƒ.EVENT_POINTER.MOVE, true);
-        ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
+        ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         ƒ.Loop.start(ƒ.LOOP_MODE.TIME_REAL, 30);
         TD.enemyTimer = new ƒ.Timer(ƒ.Time.game, 1000, TD.enemyList.length, launchEnemy);
     }
@@ -53,7 +53,7 @@ var TD;
             let current = TD.enemyList[TD.curEnemy];
             TD.activeEnemies.push(current);
             TD.viewport.getBranch().addChild(current);
-            ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, current.update.bind(TD.enemyList[TD.curEnemy]));
+            ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, current.update.bind(TD.enemyList[TD.curEnemy]));
             TD.curEnemy++;
         }
         else {

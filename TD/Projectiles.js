@@ -13,7 +13,7 @@ var TD;
             let cmpMesh = new ƒ.ComponentMesh(Projectile.mesh);
             this.addComponent(cmpMesh);
             cmpMesh.mtxPivot.scale(ƒ.Vector3.ONE(0.2));
-            ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.update.bind(this));
+            ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update.bind(this));
         }
         update(_event) {
             let position = this.mtxLocal.translation;
