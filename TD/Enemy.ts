@@ -46,12 +46,10 @@ namespace TD {
     }
 
     private removeEnemy(_tower: Tower): void {
-      let _index: number = activeEnemies.indexOf(this);
-      if (_index > -1) {
-        activeEnemies.splice(_index, 1);
-      }
+      
+      activeEnemies.splice(activeEnemies.indexOf(this), 1);
+      
       this.getParent().removeChild(this);
-      _tower.target = null;
     }
   }
 }

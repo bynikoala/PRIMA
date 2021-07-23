@@ -39,22 +39,21 @@ namespace TD {
     public follow(_enemy: Enemy): void {
       this.target = _enemy;
 
-      if (!this.mtxLocal.translation.isInsideSphere(this.target.mtxLocal.translation, this.range)) {
-        return;
+      if (this.mtxLocal.translation.isInsideSphere(this.target.mtxLocal.translation, this.range)) {
+        this.top.cmpTransform.lookAt(_enemy.mtxWorld.translation, ƒ.Vector3.Y());
       }
-
-      this.top.cmpTransform.lookAt(_enemy.mtxWorld.translation, ƒ.Vector3.Y());
-      
     }
 
     public fire(): void {
 
       if (this.target == null) {
         return;
+      } 
+      
+      if (this.mtxLocal.translation.isInsideSphere(this.target.mtxLocal.translation, this.range)) {
+        let projectile: Projectile = new Projectile(this.top.mtxWorld.translation, this.target, this);
+        viewport.getBranch().addChild(projectile);
       }
-
-      let projectile: Projectile = new Projectile(this.top.mtxWorld.translation, this.target, this);
-      viewport.getBranch().addChild(projectile);
     }
 
 

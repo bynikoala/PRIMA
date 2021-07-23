@@ -68,16 +68,15 @@ namespace TD {
   }
 
   function launchEnemy(): void {
-    if (curEnemy <= enemyList.length) {
-      let current: Enemy = enemyList[curEnemy];
-      activeEnemies.push(current);
-      viewport.getBranch().addChild(current);
-      ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, current.update.bind(enemyList[curEnemy]));
-
-      curEnemy++;
-    } else {
-      enemyTimer.clear();
+    if (activeEnemies.length == enemyList.length) { 
+      enemyTimer.clear(); 
+      return; 
     }
+
+    activeEnemies.push(enemyList[curEnemy]);
+    viewport.getBranch().addChild(enemyList[curEnemy]);
+    ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, enemyList[curEnemy].update.bind(enemyList[curEnemy]));
+    curEnemy++;
   }
 
   function update(_event: ƒ.Eventƒ): void {

@@ -37,12 +37,8 @@ var TD;
             }
         }
         removeEnemy(_tower) {
-            let _index = TD.activeEnemies.indexOf(this);
-            if (_index > -1) {
-                TD.activeEnemies.splice(_index, 1);
-            }
+            TD.activeEnemies.splice(TD.activeEnemies.indexOf(this), 1);
             this.getParent().removeChild(this);
-            _tower.target = null;
         }
     }
     Enemy.material = new ƒ.Material("Enemy", ƒ.ShaderFlat, new ƒ.CoatColored());

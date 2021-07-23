@@ -26,17 +26,18 @@ var TD;
         }
         follow(_enemy) {
             this.target = _enemy;
-            if (!this.mtxLocal.translation.isInsideSphere(this.target.mtxLocal.translation, this.range)) {
-                return;
+            if (this.mtxLocal.translation.isInsideSphere(this.target.mtxLocal.translation, this.range)) {
+                this.top.cmpTransform.lookAt(_enemy.mtxWorld.translation, ƒ.Vector3.Y());
             }
-            this.top.cmpTransform.lookAt(_enemy.mtxWorld.translation, ƒ.Vector3.Y());
         }
         fire() {
             if (this.target == null) {
                 return;
             }
-            let projectile = new TD.Projectile(this.top.mtxWorld.translation, this.target, this);
-            TD.viewport.getBranch().addChild(projectile);
+            if (this.mtxLocal.translation.isInsideSphere(this.target.mtxLocal.translation, this.range)) {
+                let projectile = new TD.Projectile(this.top.mtxWorld.translation, this.target, this);
+                TD.viewport.getBranch().addChild(projectile);
+            }
         }
         upgrade() {
             this.stage++;

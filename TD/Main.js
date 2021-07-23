@@ -49,16 +49,14 @@ var TD;
         });
     }
     function launchEnemy() {
-        if (TD.curEnemy <= TD.enemyList.length) {
-            let current = TD.enemyList[TD.curEnemy];
-            TD.activeEnemies.push(current);
-            TD.viewport.getBranch().addChild(current);
-            ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, current.update.bind(TD.enemyList[TD.curEnemy]));
-            TD.curEnemy++;
-        }
-        else {
+        if (TD.activeEnemies.length == TD.enemyList.length) {
             TD.enemyTimer.clear();
+            return;
         }
+        TD.activeEnemies.push(TD.enemyList[TD.curEnemy]);
+        TD.viewport.getBranch().addChild(TD.enemyList[TD.curEnemy]);
+        ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, TD.enemyList[TD.curEnemy].update.bind(TD.enemyList[TD.curEnemy]));
+        TD.curEnemy++;
     }
     function update(_event) {
         TD.towerList.forEach(tower => {
